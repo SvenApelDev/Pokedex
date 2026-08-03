@@ -4,3 +4,6 @@ Thumbs.db
 
 # Editor
 .vscode/
+
+# Projekt-interne Dokumente
+*.pdf
