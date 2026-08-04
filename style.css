@@ -82,9 +82,14 @@ footer {
     flex-wrap: wrap;
     gap: 16px;
 
+    .card-character:hover {
+        box-shadow: 0px 6px 30px 4px rgba(118, 118, 51, 0.4);
+        transform: translate(0, -8px); 
+
+    }
+
     .card-character {
         padding: 8px;
-        width: 200px;
         height: 260px;
         background-color: #fff;
         display: flex;
@@ -92,6 +97,8 @@ footer {
         justify-content: center;
         flex: 0 0 200px;
         border-radius: 24px;
+        border: 2px solid transparent;
+        transition: box-shadow 0.3s ease, transform 0.3s ease;
 
         button {
             width: 100%;
@@ -101,9 +108,29 @@ footer {
             border-radius: 18px;
             cursor: pointer;
 
+            h2 {
+                text-transform: capitalize;
+            }
+
             img {
-                max-width: 100%;
+                max-width: 80%;
                 height: auto;
+            }
+
+            .types {
+                display: flex;
+                justify-content: center;
+                gap: 8px;
+
+                .type {
+                    padding: 2px 8px 4px 8px;
+                    border: 1px solid #000;
+                    border-radius: 8px;
+                    text-align: center;
+                    font-size: 14px;
+                    font-weight: 400;
+                    color: #000;
+                }
             }
         }
     }

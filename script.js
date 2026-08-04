@@ -7,11 +7,7 @@ let searchResults = [];
 let offset = 0;
 const limit = 40;
 
-async function loadPokemon(url) {
-	const response = await fetch(url);
-	const data = await response.json();
-	return data;
-}
+//#region Renders
 
 function renderPokemonList() {
 	const listRef = document.getElementById("cardList");
@@ -19,17 +15,35 @@ function renderPokemonList() {
 
 	for (let i = 0; i < allPokemon.length; i++) {
 		const pokemon = allPokemon[i];
+        const cardColor = typeColors[pokemon.types[0].type.name];
 		listRef.innerHTML += /*html*/ `
 
-            <li class="card-character">
+            <li class="card-character" style="background-color: ${cardColor}">
                 <button data-id="card">
                     <span>#${pokemon.id}</span>
                     <h2>${pokemon.name}</h2>
                     <img src="${pokemon.sprites.other["official-artwork"].front_default}" alt="${pokemon.name}">
-                 </button>
+                    <div class="types">${renderTypes(pokemon)}</div>
+                </button>
             </li>
         `;
 	}
+}
+
+function renderTypes(pokemon) {
+	return pokemon.types
+		.map((entry) => `<span class="type">${entry.type.name}</span>`)
+		.join("");
+}
+
+//#endregion
+
+//#region Loads
+
+async function loadPokemon(url) {
+	const response = await fetch(url);
+	const data = await response.json();
+	return data;
 }
 
 async function loadPokemonList() {
@@ -48,3 +62,9 @@ async function loadPokemonList() {
 }
 
 loadPokemonList();
+
+//#endregion
+
+//#region Helpers
+
+//#endregion
