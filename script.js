@@ -15,7 +15,7 @@ function renderPokemonList() {
 
 	for (let i = 0; i < allPokemon.length; i++) {
 		const pokemon = allPokemon[i];
-        const cardColor = typeColors[pokemon.types[0].type.name];
+		const cardColor = typeColors[pokemon.types[0].type.name];
 		listRef.innerHTML += /*html*/ `
 
             <li class="card-character" style="background-color: ${cardColor}">
@@ -48,7 +48,7 @@ async function loadPokemon(url) {
 
 async function loadPokemonList() {
 	const response = await fetch(
-		"https://pokeapi.co/api/v2/pokemon?limit=40&offset=0",
+		`https://pokeapi.co/api/v2/pokemon?limit=${limit}&offset=${offset}`,
 	);
 	const responseFromJSON = await response.json();
 
@@ -59,6 +59,8 @@ async function loadPokemonList() {
 
 	allPokemon.push(...loaded);
 	renderPokemonList();
+
+	offset += limit;
 }
 
 loadPokemonList();
