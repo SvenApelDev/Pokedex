@@ -1,16 +1,61 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Pokedex</title>
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>Pokedex</title>
 
-    <link rel="stylesheet" href="font.css">
-    <link rel="stylesheet" href="style.css">
+		<link
+			rel="icon"
+			href="assets/icons/ic-pokedex.svg"
+			type="image/svg+xml"
+		/>
 
-    <script src="script.js"></script>
-</head>
-<body>
-    
-</body>
+		<link rel="stylesheet" href="font.css" />
+		<link rel="stylesheet" href="style.css" />
+
+		<script defer src="script.js"></script>
+	</head>
+	<body>
+		<header>
+			<div class="content-wrapper header-space">
+				<div class="logo-content">
+					<img
+						class="logo-img"
+						src="assets/icons/ic-pokedex.svg"
+						alt=""
+					/>
+					<p class="logo-name">Pokedex</p>
+				</div>
+				<div class="search-content">
+					<search>
+						<form action="./search/">
+							<label for="pokemon-search">Find Pokemon</label>
+							<input
+								type="search"
+								data-id="search-input"
+								name="q"
+							/>
+							<button data-id="search-button" type="submit">
+								Search
+							</button>
+						</form>
+					</search>
+				</div>
+			</div>
+		</header>
+		<main data-id="content">
+			<div class="content-wrapper main-space">
+				<ul id="cardList" class="cards-list">
+					<!-- JS rendert hier die einzelnen Karten rein -->
+				</ul>
+			</div>
+		</main>
+		<footer>
+			<div class="content-wrapper footer-space">
+				<img class="logo-da" src="assets/icons/ic-da-logo.svg" alt="" />
+				<p class="copyright">&copy; 2026 Pokedex - Sven Apel</p>
+			</div>
+		</footer>
+	</body>
 </html>
