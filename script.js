@@ -65,6 +65,25 @@ async function loadPokemonList() {
 
 loadPokemonList();
 
+async function loadMore() {
+    const loaderRef = document.getElementById("loader");
+    const buttonRef = document.querySelector('[data-id="load-more-button"]');
+
+    // 1. Loader zeigen + Button sperren
+
+    loaderRef.classList.remove("d-none");
+    buttonRef.disabled = true;
+
+    // 2. Warten, bis geladen
+
+    await loadPokemonList();
+
+    // 3. Loader verstecken + Button entsprerren
+
+    loaderRef.classList.add("d-none");
+    buttonRef.disabled = false;
+}
+
 //#endregion
 
 //#region Helpers
