@@ -51,15 +51,25 @@
 					<!-- JS rendert hier die einzelnen Karten rein -->
 				</ul>
 				<div class="load-more-container">
-					<button
-						data-id="load-more-button"
-						onclick="loadMore()"
-					>
+					<button data-id="load-more-button" onclick="loadMore()">
 						More Pokémon
 					</button>
 					<div id="loader" class="d-none"><p>Loading...</p></div>
 				</div>
 			</div>
+			<dialog data-id="dialog">
+				<button
+					data-id="close-dialog-button"
+					onclick="dialogRef.close()"
+				>
+					X
+				</button>
+				<button data-id="prev-button">‹</button>
+				<div data-id="overlay-pokemon-name">
+					<!-- renderDialog füllt: Name, Bild, Stats -->
+				</div>
+				<button data-id="next-button">›</button>
+			</dialog>
 		</main>
 		<footer>
 			<div class="content-wrapper footer-space">

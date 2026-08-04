@@ -19,7 +19,7 @@ function renderPokemonList() {
 		listRef.innerHTML += /*html*/ `
 
             <li class="card-character" style="background-color: ${cardColor}">
-                <button data-id="card">
+                <button data-id="card" onclick="openDialog(${i})">
                     <span>#${pokemon.id}</span>
                     <h2>${pokemon.name}</h2>
                     <img src="${pokemon.sprites.other["official-artwork"].front_default}" alt="${pokemon.name}">
@@ -66,22 +66,41 @@ async function loadPokemonList() {
 loadPokemonList();
 
 async function loadMore() {
-    const loaderRef = document.getElementById("loader");
-    const buttonRef = document.querySelector('[data-id="load-more-button"]');
+	const loaderRef = document.getElementById("loader");
+	const buttonRef = document.querySelector('[data-id="load-more-button"]');
 
-    // 1. Loader zeigen + Button sperren
+	// 1. Loader zeigen + Button sperren
 
-    loaderRef.classList.remove("d-none");
-    buttonRef.disabled = true;
+	loaderRef.classList.remove("d-none");
+	buttonRef.disabled = true;
 
-    // 2. Warten, bis geladen
+	// 2. Warten, bis geladen
 
-    await loadPokemonList();
+	await loadPokemonList();
 
-    // 3. Loader verstecken + Button entsprerren
+	// 3. Loader verstecken + Button entsprerren
 
-    loaderRef.classList.add("d-none");
-    buttonRef.disabled = false;
+	loaderRef.classList.add("d-none");
+	buttonRef.disabled = false;
+}
+
+const dialogRef = document.querySelector('[data-id="dialog"]');
+
+function openDialog(i) {
+    renderDialog(i);
+    dialogRef.showModal();
+}
+
+function renderDialog(i) {
+	const pokemon = allPokemon[i];
+	const contentRef = document.querySelector(
+		'[data-id="overlay-pokemon-name"]',
+	);
+
+	contentRef.innerHTML = /*html*/ `
+        <h2>${pokemon.name}</h2>
+        <img data-id="dialog-image" src="${pokemon.sprites.other["official-artwork"].front_default}" alt="">
+    `;
 }
 
 //#endregion
