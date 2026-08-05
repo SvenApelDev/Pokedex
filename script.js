@@ -94,14 +94,23 @@ const dialogRef = document.querySelector('[data-id="dialog"]');
 
 dialogRef.addEventListener("click", (event) => {
 	if (event.target === dialogRef) {
-		dialogRef.close();
+		closeDialog();
 	}
+});
+
+dialogRef.addEventListener("close", () => {
+	document.body.classList.remove("no-scroll");
 });
 
 function openDialog(i) {
 	displayImg = i;
 	renderDialog(i);
 	dialogRef.showModal();
+	document.body.classList.add("no-scroll");
+}
+
+function closeDialog() {
+	dialogRef.close();
 }
 
 function renderDialog(i) {

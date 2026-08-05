@@ -18,6 +18,7 @@ body {
     font-family: 'Inter';
     font-size: 16px;
     font-weight: 400;
+
 }
 
 header {
@@ -44,6 +45,10 @@ footer {
    .content-wrapper {
     min-width: 1440px;
     background-color: rgb(71, 118, 118);
+}
+
+.no-scroll {
+    overflow: hidden;
 }
 
 /* ------ HEADER ------ */
