@@ -36,6 +36,10 @@ function renderTypes(pokemon) {
 		.join("");
 }
 
+function renderStats(pokemon) {
+    return pokemon.stats.map((entry) => `<li>${entry.stat.name}: ${entry.base_stat}</li>`).join("");
+}
+
 //#endregion
 
 //#region Loads
@@ -99,7 +103,10 @@ function renderDialog(i) {
 
 	contentRef.innerHTML = /*html*/ `
         <h2>${pokemon.name}</h2>
-        <img data-id="dialog-image" src="${pokemon.sprites.other["official-artwork"].front_default}" alt="">
+        <img data-id="dialog-image" src="${pokemon.sprites.other["official-artwork"].front_default}" alt="" />
+        <div class="content-stats">
+            <ul class="stats">${renderStats(pokemon)}</ul>
+        </div>
     `;
 }
 
