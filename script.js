@@ -9,17 +9,17 @@ const limit = 40;
 
 //#region Renders
 
-function renderPokemonList() {
+function renderPokemonList(pkmListToRender) {
 	const listRef = document.getElementById("cardList");
 	listRef.innerHTML = "";
 
-	for (let i = 0; i < allPokemon.length; i++) {
-		const pokemon = allPokemon[i];
+	for (let i = 0; i < pkmListToRender.length; i++) {
+		const pokemon = pkmListToRender[i];
 		const cardColor = typeColors[pokemon.types[0].type.name];
 		listRef.innerHTML += /*html*/ `
 
             <li class="card-character" style="background-color: ${cardColor}">
-                <button data-id="card" onclick="openDialog(${i})">
+                <button data-id="card" onclick="openDialog(${pokemon.id})">
                     <span>#${pokemon.id}</span>
                     <h2>${pokemon.name}</h2>
                     <img src="${pokemon.sprites.other["official-artwork"].front_default}" alt="${pokemon.name}">
@@ -64,7 +64,7 @@ async function loadPokemonList() {
 	const loaded = await Promise.all(promises);
 
 	allPokemon.push(...loaded);
-	renderPokemonList();
+	renderPokemonList(allPokemon);
 
 	offset += limit;
 }
@@ -75,16 +75,10 @@ async function loadMore() {
 	const loaderRef = document.getElementById("loader");
 	const buttonRef = document.querySelector('[data-id="load-more-button"]');
 
-	// 1. Loader zeigen + Button sperren
-
 	loaderRef.classList.remove("d-none");
 	buttonRef.disabled = true;
 
-	// 2. Warten, bis geladen
-
 	await loadPokemonList();
-
-	// 3. Loader verstecken + Button entsprerren
 
 	loaderRef.classList.add("d-none");
 	buttonRef.disabled = false;
@@ -102,15 +96,22 @@ dialogRef.addEventListener("close", () => {
 	document.body.classList.remove("no-scroll");
 });
 
-function openDialog(i) {
-	displayImg = i;
-	renderDialog(i);
+function openDialog(pokemonId) {
+	displayImg = allPokemon.findIndex(p => p.id === pokemonId);
+	renderDialog(displayImg);
 	dialogRef.showModal();
 	document.body.classList.add("no-scroll");
 }
 
 function closeDialog() {
 	dialogRef.close();
+}
+
+function renderNotFoundMessage() {
+    const listRef = document.getElementById("cardList");
+	listRef.innerHTML = /*html*/`
+		<p data-id="not-found">No match found.</p>
+	`;
 }
 
 function renderDialog(i) {
@@ -136,6 +137,37 @@ function nextImg(backForward) {
 	}
 	renderDialog(displayImg);
 }
+
+function searchPokemon() {
+	const searchInput = document.querySelector('[data-id="search-input"]').value.toLowerCase().trim();
+
+	if (searchInput.length === 0) {
+		renderPokemonList(allPokemon);
+		return;
+	}
+
+	if (searchInput.length < 3) {
+		return;
+	}
+
+	searchFilterRender(searchInput);
+}
+
+function searchFilterRender(searchInput) {
+	const filterPokemon = allPokemon.filter(pokemon =>
+		pokemon.name.includes(searchInput)
+	);
+
+	if (filterPokemon.length > 0) {
+		renderPokemonList(filterPokemon);
+	} else {
+		renderNotFoundMessage();
+	}
+}
+
+
+
+	
 
 //#endregion
 
