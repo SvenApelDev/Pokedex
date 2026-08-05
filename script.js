@@ -37,7 +37,9 @@ function renderTypes(pokemon) {
 }
 
 function renderStats(pokemon) {
-    return pokemon.stats.map((entry) => `<li>${entry.stat.name}: ${entry.base_stat}</li>`).join("");
+	return pokemon.stats
+		.map((entry) => `<li>${entry.stat.name}: ${entry.base_stat}</li>`)
+		.join("");
 }
 
 //#endregion
@@ -90,9 +92,16 @@ async function loadMore() {
 
 const dialogRef = document.querySelector('[data-id="dialog"]');
 
+dialogRef.addEventListener("click", (event) => {
+	if (event.target === dialogRef) {
+		dialogRef.close();
+	}
+});
+
 function openDialog(i) {
-    renderDialog(i);
-    dialogRef.showModal();
+	displayImg = i;
+	renderDialog(i);
+	dialogRef.showModal();
 }
 
 function renderDialog(i) {
@@ -108,6 +117,15 @@ function renderDialog(i) {
             <ul class="stats">${renderStats(pokemon)}</ul>
         </div>
     `;
+}
+
+function nextImg(backForward) {
+	if (backForward === "forward") {
+		displayImg = (displayImg + 1) % allPokemon.length;
+	} else if (backForward === "back") {
+		displayImg = (displayImg + allPokemon.length - 1) % allPokemon.length;
+	}
+	renderDialog(displayImg);
 }
 
 //#endregion
