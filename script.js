@@ -1,4 +1,3 @@
-
 const allPokemon = [];
 let searchResults = [];
 
@@ -6,6 +5,8 @@ let offset = 0;
 const limit = 40;
 
 const dialogRef = document.querySelector('[data-id="dialog"]');
+
+let activeTab = "main";
 
 dialogRef.addEventListener("click", (event) => {
 	if (event.target === dialogRef) {
@@ -30,27 +31,21 @@ async function loadPokemonList() {
 		`https://pokeapi.co/api/v2/pokemon?limit=${limit}&offset=${offset}`,
 	);
 	const responseFromJSON = await response.json();
-
 	const promises = responseFromJSON.results.map((entry) =>
 		loadPokemon(entry.url),
 	);
 	const loaded = await Promise.all(promises);
-
 	allPokemon.push(...loaded);
 	renderPokemonList(allPokemon);
-
 	offset += limit;
 }
 
 async function loadMore() {
 	const loaderRef = document.getElementById("loader");
 	const buttonRef = document.querySelector('[data-id="load-more-button"]');
-
 	loaderRef.classList.remove("d-none");
 	buttonRef.disabled = true;
-
 	await loadPokemonList();
-
 	loaderRef.classList.add("d-none");
 	buttonRef.disabled = false;
 }
@@ -61,7 +56,6 @@ async function loadMore() {
 function renderPokemonList(pkmListToRender) {
 	const listRef = document.getElementById("cardList");
 	listRef.innerHTML = "";
-
 	for (let i = 0; i < pkmListToRender.length; i++) {
 		const pokemon = pkmListToRender[i];
 		listRef.innerHTML += getCardTemplate(pokemon);
@@ -85,12 +79,16 @@ function renderDialog(i) {
 	const contentRef = document.querySelector(
 		'[data-id="overlay-pokemon-name"]',
 	);
-
 	contentRef.innerHTML = getDialogTemplate(pokemon);
 }
 
+function switchTab(tabName) {
+	activeTab = tabName;
+	renderDialog(displayImg);
+}
+
 function renderNotFoundMessage() {
-    const listRef = document.getElementById("cardList");
+	const listRef = document.getElementById("cardList");
 	listRef.innerHTML = getNotFoundTemplate();
 }
 
@@ -98,7 +96,7 @@ function renderNotFoundMessage() {
 //#region ------ DIALOG CONTROLS ------
 
 function openDialog(pokemonId) {
-	displayImg = allPokemon.findIndex(p => p.id === pokemonId);
+	displayImg = allPokemon.findIndex((p) => p.id === pokemonId);
 	renderDialog(displayImg);
 	dialogRef.showModal();
 	document.body.classList.add("no-scroll");
@@ -121,25 +119,24 @@ function nextImg(backForward) {
 //#region ------ SEARCH ------
 
 function searchPokemon() {
-	const searchInput = document.querySelector('[data-id="search-input"]').value.toLowerCase().trim();
-
+	const searchInput = document
+		.querySelector('[data-id="search-input"]')
+		.value.toLowerCase()
+		.trim();
 	if (searchInput.length === 0) {
 		renderPokemonList(allPokemon);
 		return;
 	}
-
 	if (searchInput.length < 3) {
 		return;
 	}
-
 	searchFilterRender(searchInput);
 }
 
 function searchFilterRender(searchInput) {
-	const filterPokemon = allPokemon.filter(pokemon =>
-		pokemon.name.includes(searchInput)
+	const filterPokemon = allPokemon.filter((pokemon) =>
+		pokemon.name.includes(searchInput),
 	);
-
 	if (filterPokemon.length > 0) {
 		renderPokemonList(filterPokemon);
 	} else {
