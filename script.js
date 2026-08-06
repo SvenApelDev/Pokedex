@@ -64,13 +64,27 @@ function renderPokemonList(pkmListToRender) {
 
 function renderTypes(pokemon) {
 	return pokemon.types
-		.map((entry) => `<span class="type">${entry.type.name}</span>`)
-		.join("");
+		.map((entry) => {
+			const pillColor = typeColors[entry.type.name];
+			return `<span class="type" style="background-color: ${pillColor}">${entry.type.name}</span>`;
+		})
+			.join("");
 }
 
 function renderStats(pokemon) {
 	return pokemon.stats
-		.map((entry) => `<li>${entry.stat.name}: ${entry.base_stat}</li>`)
+		.map((entry) => {
+			const percentBar = (entry.base_stat / 255) * 100;
+			return `
+				<li class="stat-row">
+					<span class="stat-name">${entry.stat.name}</span>
+					<span class="stat-value">${entry.base_stat}</span>
+					<div class="stat-bar">
+						<div class="stat-fill" style="width: ${percentBar}%"></div>
+					</div>
+				</li>			
+			`;
+		})
 		.join("");
 }
 

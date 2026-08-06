@@ -1,10 +1,12 @@
 function getCardTemplate(pokemon) {
-	const cardColor = typeColors[pokemon.types[0].type.name];
+	const cardColor = typeColors[pokemon.types[0].type.name] + "70";
 	return /*html*/ `
         <li class="card-character" style="background-color: ${cardColor}">
             <button data-id="card" onclick="openDialog(${pokemon.id})" aria-label="${pokemon.name}">
-                <span>#${pokemon.id}</span>
-                <h2>${pokemon.name}</h2>
+                <div class="card-header">
+            <span class="pkm-id">#${pokemon.id}</span>
+                <h2 class="pkm-headline">${pokemon.name}</h2>
+</div>
                 <img data-id="card-image" src="${pokemon.sprites.other["official-artwork"].front_default}" alt="${pokemon.name}">
                 <div class="types">${renderTypes(pokemon)}</div>
             </button>
@@ -15,13 +17,11 @@ function getCardTemplate(pokemon) {
 function getDialogTemplate(pokemon) {
 	return /*html*/ `
         <h2>${pokemon.name}</h2>
-        <img data-id="dialog-image" src="${pokemon.sprites.other["official-artwork"].front_default}" alt="" />
+        <img class="dialog-img" data-id="dialog-image" src="${pokemon.sprites.other["official-artwork"].front_default}" alt="" />
        
         <div class="tab-buttons">
             <button onclick="switchTab('main')">Main</button>
             <button onclick="switchTab('stats')">Stats</button>
-            <button onclick="switchTab('evo')">Evo</button>
-
         </div>
         <div class="tab-content">
             ${getTabContent(pokemon)}
@@ -30,12 +30,12 @@ function getDialogTemplate(pokemon) {
 }
 
 function renderAbilities(pokemon) {
-    return pokemon.abilities.map(entry => entry.ability.name).join(', ');
+	return pokemon.abilities.map((entry) => entry.ability.name).join(", ");
 }
 
 function getMainTab(pokemon) {
-    const heightMeters = (pokemon.height / 10).toFixed(1);
-    const weightKg = (pokemon.weight / 10).toFixed(1);
+	const heightMeters = (pokemon.height / 10).toFixed(1);
+	const weightKg = (pokemon.weight / 10).toFixed(1);
 	return /*html*/ `
         <ul>
             <li class="info-row">
@@ -68,17 +68,11 @@ function getStatsTab(pokemon) {
     `;
 }
 
-function getEvoTab(pokemon) {
-	return "EVO kommt später hier.";
-}
-
 function getTabContent(pokemon) {
 	if (activeTab === "main") {
 		return getMainTab(pokemon);
 	} else if (activeTab === "stats") {
 		return getStatsTab(pokemon);
-	} else if (activeTab === "evo") {
-		return getEvoTab(pokemon);
 	}
 }
 
