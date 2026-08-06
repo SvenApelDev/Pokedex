@@ -3,7 +3,7 @@
 	<head>
 		<meta charset="UTF-8" />
 		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-		<title>Pokedex</title>
+		<title>Pokédex</title>
 
 		<link
 			rel="icon"
@@ -26,7 +26,7 @@
 						src="assets/icons/ic-pokedex.svg"
 						alt=""
 					/>
-					<p class="logo-name">Pokedex</p>
+					<p class="logo-name">Pokédex</p>
 				</div>
 				<div class="search-content">
 					<search>
@@ -37,7 +37,7 @@
 								data-id="search-input"
 								name="q"
 							/>
-							<button data-id="search-button" type="button" onclick="searchPokemon()">
+							<button type="button" onclick="searchPokemon()" aria-label="Search Pokémon">
 								Search
 							</button>
 						</form>
@@ -51,30 +51,30 @@
 					<!-- JS rendert hier die einzelnen Karten rein -->
 				</ul>
 				<div class="load-more-container">
-					<button data-id="load-more-button" onclick="loadMore()">
+					<button data-id="load-more-button" onclick="loadMore()" arial-label="More Pokédemon">
 						More Pokémon
 					</button>
 					<div id="loader" class="d-none"><p>Loading...</p></div>
 				</div>
 			</div>
-			<dialog data-id="dialog">
+			<dialog data-id="dialog" aria-label="Pokémon details">
 				<button
 					data-id="close-dialog-button"
-					onclick="closeDialog()"
+					onclick="closeDialog()" aria-label="Close dialog" 
 				>
 					X
 				</button>
-				<button data-id="prev-button" onclick="nextImg('back')">‹</button>
+				<button data-id="prev-button" onclick="nextImg('back')" aria-label="Previous Pokémon">‹</button>
 				<div data-id="overlay-pokemon-name">
 					<!-- renderDialog füllt: Name, Bild, Stats -->
 				</div>
-				<button data-id="next-button" onclick="nextImg('forward')">›</button>
+				<button data-id="next-button" onclick="nextImg('forward')" aria-label="Next Pokémon">›</button>
 			</dialog>
 		</main>
 		<footer>
 			<div class="content-wrapper footer-space">
 				<img class="logo-da" src="assets/icons/ic-da-logo.svg" alt="" />
-				<p class="copyright">&copy; 2026 Pokedex - Sven Apel</p>
+				<p class="copyright">&copy; 2026 Pokédex - Sven Apel</p>
 			</div>
 		</footer>
 	</body>

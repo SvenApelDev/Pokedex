@@ -1,49 +1,23 @@
 
 const allPokemon = [];
-
 let searchResults = [];
 
 let offset = 0;
 const limit = 40;
 
-//#region Renders
+const dialogRef = document.querySelector('[data-id="dialog"]');
 
-function renderPokemonList(pkmListToRender) {
-	const listRef = document.getElementById("cardList");
-	listRef.innerHTML = "";
-
-	for (let i = 0; i < pkmListToRender.length; i++) {
-		const pokemon = pkmListToRender[i];
-		const cardColor = typeColors[pokemon.types[0].type.name];
-		listRef.innerHTML += /*html*/ `
-
-            <li class="card-character" style="background-color: ${cardColor}">
-                <button data-id="card" onclick="openDialog(${pokemon.id})">
-                    <span>#${pokemon.id}</span>
-                    <h2>${pokemon.name}</h2>
-                    <img data-id="card-image" src="${pokemon.sprites.other["official-artwork"].front_default}" alt="${pokemon.name}">
-                    <div class="types">${renderTypes(pokemon)}</div>
-                </button>
-            </li>
-        `;
+dialogRef.addEventListener("click", (event) => {
+	if (event.target === dialogRef) {
+		closeDialog();
 	}
-}
+});
 
-function renderTypes(pokemon) {
-	return pokemon.types
-		.map((entry) => `<span class="type">${entry.type.name}</span>`)
-		.join("");
-}
+dialogRef.addEventListener("close", () => {
+	document.body.classList.remove("no-scroll");
+});
 
-function renderStats(pokemon) {
-	return pokemon.stats
-		.map((entry) => `<li>${entry.stat.name}: ${entry.base_stat}</li>`)
-		.join("");
-}
-
-//#endregion
-
-//#region Loads
+//#region ------ LOADS ------
 
 async function loadPokemon(url) {
 	const response = await fetch(url);
@@ -68,8 +42,6 @@ async function loadPokemonList() {
 	offset += limit;
 }
 
-loadPokemonList();
-
 async function loadMore() {
 	const loaderRef = document.getElementById("loader");
 	const buttonRef = document.querySelector('[data-id="load-more-button"]');
@@ -83,34 +55,40 @@ async function loadMore() {
 	buttonRef.disabled = false;
 }
 
-const dialogRef = document.querySelector('[data-id="dialog"]');
+//#endregion
+//#region ------ RENDERS ------
 
-dialogRef.addEventListener("click", (event) => {
-	if (event.target === dialogRef) {
-		closeDialog();
+function renderPokemonList(pkmListToRender) {
+	const listRef = document.getElementById("cardList");
+	listRef.innerHTML = "";
+
+	for (let i = 0; i < pkmListToRender.length; i++) {
+		const pokemon = pkmListToRender[i];
+		const cardColor = typeColors[pokemon.types[0].type.name];
+		listRef.innerHTML += /*html*/ `
+
+            <li class="card-character" style="background-color: ${cardColor}">
+                <button data-id="card" onclick="openDialog(${pokemon.id})" aria-label="${pokemon.name}">
+                    <span>#${pokemon.id}</span>
+                    <h2>${pokemon.name}</h2>
+                    <img data-id="card-image" src="${pokemon.sprites.other["official-artwork"].front_default}" alt="${pokemon.name}">
+                    <div class="types">${renderTypes(pokemon)}</div>
+                </button>
+            </li>
+        `;
 	}
-});
-
-dialogRef.addEventListener("close", () => {
-	document.body.classList.remove("no-scroll");
-});
-
-function openDialog(pokemonId) {
-	displayImg = allPokemon.findIndex(p => p.id === pokemonId);
-	renderDialog(displayImg);
-	dialogRef.showModal();
-	document.body.classList.add("no-scroll");
 }
 
-function closeDialog() {
-	dialogRef.close();
+function renderTypes(pokemon) {
+	return pokemon.types
+		.map((entry) => `<span class="type">${entry.type.name}</span>`)
+		.join("");
 }
 
-function renderNotFoundMessage() {
-    const listRef = document.getElementById("cardList");
-	listRef.innerHTML = /*html*/`
-		<p data-id="not-found">No match found.</p>
-	`;
+function renderStats(pokemon) {
+	return pokemon.stats
+		.map((entry) => `<li>${entry.stat.name}: ${entry.base_stat}</li>`)
+		.join("");
 }
 
 function renderDialog(i) {
@@ -128,6 +106,27 @@ function renderDialog(i) {
     `;
 }
 
+function renderNotFoundMessage() {
+    const listRef = document.getElementById("cardList");
+	listRef.innerHTML = /*html*/`
+		<p data-id="not-found">No match found.</p>
+	`;
+}
+
+//#endregion
+//#region ------ DIALOG CONTROLS ------
+
+function openDialog(pokemonId) {
+	displayImg = allPokemon.findIndex(p => p.id === pokemonId);
+	renderDialog(displayImg);
+	dialogRef.showModal();
+	document.body.classList.add("no-scroll");
+}
+
+function closeDialog() {
+	dialogRef.close();
+}
+
 function nextImg(backForward) {
 	if (backForward === "forward") {
 		displayImg = (displayImg + 1) % allPokemon.length;
@@ -136,6 +135,9 @@ function nextImg(backForward) {
 	}
 	renderDialog(displayImg);
 }
+
+//#endregion
+//#region ------ SEARCH ------
 
 function searchPokemon() {
 	const searchInput = document.querySelector('[data-id="search-input"]').value.toLowerCase().trim();
@@ -164,12 +166,9 @@ function searchFilterRender(searchInput) {
 	}
 }
 
-
-
-	
-
 //#endregion
+//#region ------ INIT ------
 
-//#region Helpers
+loadPokemonList();
 
 //#endregion
