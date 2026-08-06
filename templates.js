@@ -4,9 +4,9 @@ function getCardTemplate(pokemon) {
         <li class="card-character" style="background-color: ${cardColor}">
             <button data-id="card" onclick="openDialog(${pokemon.id})" aria-label="${pokemon.name}">
                 <div class="card-header">
-            <span class="pkm-id">#${pokemon.id}</span>
-                <h2 class="pkm-headline">${pokemon.name}</h2>
-</div>
+                    <span class="pkm-id">#${pokemon.id}</span>
+                    <h2 class="pkm-headline">${pokemon.name}</h2>
+                </div>
                 <img data-id="card-image" src="${pokemon.sprites.other["official-artwork"].front_default}" alt="${pokemon.name}">
                 <div class="types">${renderTypes(pokemon)}</div>
             </button>
@@ -15,16 +15,25 @@ function getCardTemplate(pokemon) {
 }
 
 function getDialogTemplate(pokemon) {
+	const color = typeColors[pokemon.types[0].type.name];
 	return /*html*/ `
-        <h2>${pokemon.name}</h2>
-        <img class="dialog-img" data-id="dialog-image" src="${pokemon.sprites.other["official-artwork"].front_default}" alt="" />
-       
-        <div class="tab-buttons">
-            <button onclick="switchTab('main')">Main</button>
-            <button onclick="switchTab('stats')">Stats</button>
-        </div>
-        <div class="tab-content">
-            ${getTabContent(pokemon)}
+        <div class="dialog-content">
+            <div class="dialog-header" style="background-color: ${color}">
+                <span class="pkm-id">#${pokemon.id}</span>
+                <h2>${pokemon.name}</h2>
+            </div>
+            <div class="dialog-body" style="background-color: ${color}40">
+                <img class="dialog-img" data-id="dialog-image" src="${pokemon.sprites.other["official-artwork"].front_default}" alt="" />       
+                <div class="dialog-details">
+                    <div class="tab-buttons" style="background-color: ${color}">
+                        <button onclick="switchTab('main')">Main</button>
+                        <button onclick="switchTab('stats')">Stats</button>
+                    </div>
+                    <div class="tab-content" style="background-color: ${color}99">
+                    ${getTabContent(pokemon)}
+                    </div>
+                </div>
+            </div>
         </div>
     `;
 }
@@ -37,25 +46,21 @@ function getMainTab(pokemon) {
 	const heightMeters = (pokemon.height / 10).toFixed(1);
 	const weightKg = (pokemon.weight / 10).toFixed(1);
 	return /*html*/ `
-        <ul>
+        <ul class="main">
             <li class="info-row">
                 <span class="label">Height</span>
-                <span class="separator">:</span>
                 <span class="value">${heightMeters} m</span>
             </li>
             <li class="info-row">
                 <span class="label">Weight</span>
-                <span class="separator">:</span>
                 <span class="value">${weightKg} kg</span>
             </li>
             <li class="info-row">
                 <span class="label">Base experience</span>
-                <span class="separator">:</span>
                 <span class="value">${pokemon.base_experience}</span>
             </li>
-            <li class="info-row">
+            <li class="info-row info-row-wide">
                 <span class="label">Abilities</span>
-                <span class="separator">:</span>
                 <span class="value">${renderAbilities(pokemon)}</span>
             </li>
         </ul>

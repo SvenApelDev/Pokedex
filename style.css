@@ -169,45 +169,116 @@ footer {
 }
 
 dialog {
-    width: 90%;
-    max-width: 400px;
-    padding: 20px;
+    position: relative;
+    width: calc(100% - 32px);
+    max-width: 500px;
+    margin: 60px auto;
     border: none;
     border-radius: 16px;
+    box-shadow: 0 12px 40px rgba(0, 0, 0, 0.3);
 
-    .dialog-img {
+    .dialog-header {
+        padding: 8px;
+        color: #fff;
+    }
+
+    .dialog-body .dialog-img {
         max-width: 100%;
         height: auto;
     }
+
+    .dialog-body .dialog-details {
+        min-height: 200px;
+    }
+}
+.close-btn {
+    position: absolute;
+    top: 12px;
+    right: 12px;
+    z-index: 20;
+}
+
+.prev-btn {
+    position: absolute;
+    top: 50%;
+    left: 12px;
+    z-index: 20;
+}
+
+.next-btn {
+    position: absolute;
+    top: 50%;
+    right: 12px;
+    z-index: 20;
 }
 
 dialog::backdrop {
     background-color: rgba(0, 0, 0, 0.5);
 }
 
+.main {
+    padding: 16px;
+}
+
+.info-row {
+        background-color: #ffffff90;
+        border-radius: 4px;
+        padding: 6px;
+        color: #000;
+        display: flex;
+        justify-content: space-between;
+        margin-bottom: 12px;
+}
+
+.info-row-wide {
+    background-color: #ffffff90;
+    border-radius: 8px;
+    padding: 6px;
+    display: flex;
+    flex-direction: column;
+    color: #000;
+}
+
+.label {
+    width: 130px;
+    font-weight: 500;
+}
+
+.value {
+    font-weight: 300;
+}
+
+.stats {
+    padding: 16px;
+}
+
 .stat-row {
     display: flex;
     align-items: center;
+    justify-content: space-between;
     gap: 12px;
-    margin-bottom: 8px;
+    margin-bottom: 4px;
+    color: #fff;
 }
 
 .stat-name {
     width: 120px;
+    font-size: 16px;
+    font-weight: 400;
 }
 
 .stat-bar {
-    height: 8px;
+    height: 12px;
     background-color: #e0e0e0;
-    border-radius: 4px;
-    flex: 1;
+    border-radius:64px;
+    flex: 0 0 140px;
     overflow: hidden;
 }
 
 .stat-fill {
     height: 100%;
     background-color: #e24b4a;
-    border-radius: 4px;
+    border-radius: 6px;
 }
 /* ------ FOOTER ------ */
 
