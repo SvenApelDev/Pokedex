@@ -1,4 +1,3 @@
-// https://pokeapi.co/api/v2/pokemon?limit=40&offset=0
 
 const allPokemon = [];
 
@@ -22,7 +21,7 @@ function renderPokemonList(pkmListToRender) {
                 <button data-id="card" onclick="openDialog(${pokemon.id})">
                     <span>#${pokemon.id}</span>
                     <h2>${pokemon.name}</h2>
-                    <img src="${pokemon.sprites.other["official-artwork"].front_default}" alt="${pokemon.name}">
+                    <img data-id="card-image" src="${pokemon.sprites.other["official-artwork"].front_default}" alt="${pokemon.name}">
                     <div class="types">${renderTypes(pokemon)}</div>
                 </button>
             </li>
