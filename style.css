@@ -105,6 +105,17 @@ footer {
     color: #fff;
 }
 
+@media (min-width: 600px) {
+    .cards-list {
+        flex-direction: row;
+        flex-wrap: wrap;
+        justify-content: center;
+    }
+    .card-character {
+        flex: 1 1 240px;
+    }
+}
+
 /* ------ HEADER ------ */
 
 /* .header-space {
