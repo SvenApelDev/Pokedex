@@ -4,7 +4,7 @@ function getCardTemplate(pokemon) {
         <li class="card-character" style="background-color: ${cardColor}">
             <button data-id="card" onclick="openDialog(${pokemon.id})" aria-label="${pokemon.name}">
                 <div class="card-header">
-                    <span class="pkm-id">#${pokemon.id}</span>
+                    <span class="pkm-id">${pokemon.id}</span>
                     <h2 class="pkm-headline">${pokemon.name}</h2>
                 </div>
                 <img data-id="card-image" src="${pokemon.sprites.other["official-artwork"].front_default}" alt="${pokemon.name}">
@@ -19,7 +19,7 @@ function getDialogTemplate(pokemon) {
 	return /*html*/ `
         <div class="dialog-content">
             <div class="dialog-header" style="background-color: ${color}">
-                <span class="pkm-id">#${pokemon.id}</span>
+                <span class="pkm-id">${pokemon.id}</span>
                 <h2>${pokemon.name}</h2>
             </div>
             <div class="dialog-body" style="background-color: ${color}40">

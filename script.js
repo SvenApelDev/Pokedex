@@ -78,9 +78,11 @@ function renderStats(pokemon) {
 			return `
 				<li class="stat-row">
 					<span class="stat-name">${entry.stat.name}</span>
-					<span class="stat-value">${entry.base_stat}</span>
-					<div class="stat-bar">
-						<div class="stat-fill" style="width: ${percentBar}%"></div>
+					<div class="stat-track">
+						<div class="stat-bar">
+							<div class="stat-fill" style="width: ${percentBar}%"></div>
+						</div>
+						<span class="stat-value">${entry.base_stat}</span>
 					</div>
 				</li>			
 			`;
