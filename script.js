@@ -18,6 +18,20 @@ dialogRef.addEventListener("close", () => {
 	document.body.classList.remove("no-scroll");
 });
 
+const inputRef = document.querySelector('[data-id="search-input"]');
+const searchBtnRef = document.querySelector('[data-id="search-button"]');
+
+inputRef.addEventListener("input", () => {
+	searchBtnRef.disabled = inputRef.value.trim().length < 3;
+});
+
+const searchFormRef = document.querySelector(".search-content form");
+
+searchFormRef.addEventListener("submit", (event) => {
+    event.preventDefault();
+    searchPokemon();
+});
+
 //#region ------ DATA TRANSFORMER ------
 
 function transformPkmData(rawPkmData) {
@@ -77,6 +91,7 @@ async function loadMore() {
 
 function renderPokemonList(pkmListToRender) {
 	const listRef = document.getElementById("cardList");
+	document.getElementById("notFound").classList.add("d-none");
 	listRef.innerHTML = "";
 	for (let i = 0; i < pkmListToRender.length; i++) {
 		const pokemon = pkmListToRender[i];
@@ -126,8 +141,8 @@ function switchTab(tabName) {
 }
 
 function renderNotFoundMessage() {
-	const listRef = document.getElementById("cardList");
-	listRef.innerHTML = getNotFoundTemplate();
+	const listRef = document.getElementById("notFound");
+	notFoundRef.classList.remove("d-none");
 }
 
 //#endregion
@@ -172,14 +187,23 @@ function searchPokemon() {
 }
 
 function searchFilterRender(searchInput) {
+	const notFoundRef = document.getElementById("notFound");
 	const filterPokemon = allPokemon.filter((pokemon) =>
 		pokemon.name.includes(searchInput),
 	);
 	if (filterPokemon.length > 0) {
+		notFoundRef.classList.remove("d-none");
 		renderPokemonList(filterPokemon);
 	} else {
-		renderNotFoundMessage();
+		notFoundRef.classList.remove("d-none");
 	}
+}
+
+function resetToList() {
+    inputRef.value = "";
+    searchBtnRef.disabled = true;
+    document.getElementById("notFound").classList.add("d-none");
+    renderPokemonList(allPokemon);
 }
 
 //#endregion

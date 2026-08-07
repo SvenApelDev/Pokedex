@@ -28,8 +28,8 @@ function getDialogTemplate(pokemon) {
                 <img class="dialog-img" data-id="dialog-image" src="${pokemon.image}" alt="" />       
                 <div class="dialog-details">
                     <div class="tab-buttons" style="background-color: ${color}">
-                        <button onclick="switchTab('main')">Main</button>
-                        <button onclick="switchTab('stats')">Stats</button>
+                        <button class="${activeTab === 'main' ? 'active' : ''}" onclick="switchTab('main')">Main</button>
+                        <button class="${activeTab === 'stats' ? 'active' : ''}" onclick="switchTab('stats')">Stats</button>
                     </div>
                     <div class="tab-content" style="background-color: ${color}99">
                     ${getTabContent(pokemon)}

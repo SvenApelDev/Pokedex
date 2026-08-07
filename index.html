@@ -21,31 +21,41 @@
 	<body>
 		<header>
 			<div class="content-wrapper header-space">
-				<div class="logo-content">
+				<button
+					class="logo-content"
+					onclick="resetToList()"
+					aria-label="Back to full list"
+				>
 					<img
 						class="logo-img"
 						src="assets/icons/ic-pokedex.svg"
 						alt=""
 					/>
 					<p class="logo-name">Pokédex</p>
-				</div>
+				</button>
 				<div class="search-content">
 					<search>
-						<form action="./search/">
-							<label for="pokemon-search">Pokémon</label>
+						<form>
 							<input
 								type="search"
 								data-id="search-input"
 								name="q"
+								placeholder="Search Pokémon"
+								aria-label="Search Pokémon"
 							/>
 							<button
+								data-id="search-button"
 								type="button"
 								onclick="searchPokemon()"
 								aria-label="Search Pokémon"
+								disabled
 							>
-								Search
+								<img src="assets/icons/ic-search.svg" alt="" />
 							</button>
 						</form>
+						<p id="notFound" data-id="not-found" class="d-none">
+							No match found.
+						</p>
 					</search>
 				</div>
 			</div>
