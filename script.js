@@ -18,6 +18,26 @@ dialogRef.addEventListener("close", () => {
 	document.body.classList.remove("no-scroll");
 });
 
+//#region ------ DATA TRANSFORMER ------
+
+function transformPkmData(rawPkmData) {
+	return {
+		id: rawPkmData.id,
+		name: rawPkmData.name,
+		height: rawPkmData.height,
+		weight: rawPkmData.weight,
+		baseExperience: rawPkmData.base_experience,
+		image: rawPkmData.sprites.other["official-artwork"].front_default,
+		types: rawPkmData.types.map((t) => t.type.name),
+		abilities: rawPkmData.abilities.map((a) => a.ability.name),
+		stats: rawPkmData.stats.map((s) => ({
+            name: s.stat.name,
+            value: s.base_stat,
+        })),
+	};
+}
+
+//#endregion
 //#region ------ LOADS ------
 
 async function loadPokemon(url) {
@@ -35,7 +55,9 @@ async function loadPokemonList() {
 		loadPokemon(entry.url),
 	);
 	const loaded = await Promise.all(promises);
-	allPokemon.push(...loaded);
+	const transformed = loaded.map(transformPkmData);
+
+	allPokemon.push(...transformed);
 	renderPokemonList(allPokemon);
 	offset += limit;
 }
@@ -64,9 +86,9 @@ function renderPokemonList(pkmListToRender) {
 
 function renderTypes(pokemon) {
 	return pokemon.types
-		.map((entry) => {
-			const pillColor = typeColors[entry.type.name];
-			return `<span class="type" style="background-color: ${pillColor}">${entry.type.name}</span>`;
+		.map((typeName) => {
+			const pillColor = typeColors[typeName];
+			return `<span class="type" style="background-color: ${pillColor}">${typeName}</span>`;
 		})
 			.join("");
 }
@@ -74,15 +96,15 @@ function renderTypes(pokemon) {
 function renderStats(pokemon) {
 	return pokemon.stats
 		.map((entry) => {
-			const percentBar = (entry.base_stat / 255) * 100;
+			const percentBar = (entry.value / 255) * 100;
 			return `
 				<li class="stat-row">
-					<span class="stat-name">${entry.stat.name}</span>
+					<span class="stat-name">${entry.name}</span>
 					<div class="stat-track">
 						<div class="stat-bar">
 							<div class="stat-fill" style="width: ${percentBar}%"></div>
 						</div>
-						<span class="stat-value">${entry.base_stat}</span>
+						<span class="stat-value">${entry.value}</span>
 					</div>
 				</li>			
 			`;

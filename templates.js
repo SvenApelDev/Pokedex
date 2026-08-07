@@ -1,5 +1,6 @@
 function getCardTemplate(pokemon) {
-	const cardColor = typeColors[pokemon.types[0].type.name] + "70";
+    const mainType = pokemon.types[0];
+	const cardColor = typeColors[mainType];
 	return /*html*/ `
         <li class="card-character" style="background-color: ${cardColor}">
             <button data-id="card" onclick="openDialog(${pokemon.id})" aria-label="${pokemon.name}">
@@ -7,7 +8,7 @@ function getCardTemplate(pokemon) {
                     <span class="pkm-id">${pokemon.id}</span>
                     <h2 class="pkm-headline">${pokemon.name}</h2>
                 </div>
-                <img data-id="card-image" src="${pokemon.sprites.other["official-artwork"].front_default}" alt="${pokemon.name}">
+                <img data-id="card-image" src="${pokemon.image}" alt="${pokemon.name}">
                 <div class="types">${renderTypes(pokemon)}</div>
             </button>
         </li>
@@ -15,15 +16,16 @@ function getCardTemplate(pokemon) {
 }
 
 function getDialogTemplate(pokemon) {
-	const color = typeColors[pokemon.types[0].type.name];
+    const mainType = pokemon.types[0];
+	const color = typeColors[mainType];
 	return /*html*/ `
         <div class="dialog-content">
             <div class="dialog-header" style="background-color: ${color}">
-                <span class="pkm-id">${pokemon.id}</span>
+                <span class="pkm-id">No. ${pokemon.id}</span>
                 <h2>${pokemon.name}</h2>
             </div>
             <div class="dialog-body" style="background-color: ${color}40">
-                <img class="dialog-img" data-id="dialog-image" src="${pokemon.sprites.other["official-artwork"].front_default}" alt="" />       
+                <img class="dialog-img" data-id="dialog-image" src="${pokemon.image}" alt="" />       
                 <div class="dialog-details">
                     <div class="tab-buttons" style="background-color: ${color}">
                         <button onclick="switchTab('main')">Main</button>
@@ -39,7 +41,7 @@ function getDialogTemplate(pokemon) {
 }
 
 function renderAbilities(pokemon) {
-	return pokemon.abilities.map((entry) => entry.ability.name).join(", ");
+	return pokemon.abilities.join(", ");
 }
 
 function getMainTab(pokemon) {
@@ -57,7 +59,7 @@ function getMainTab(pokemon) {
             </li>
             <li class="info-row">
                 <span class="label">Base experience</span>
-                <span class="value">${pokemon.base_experience}</span>
+                <span class="value">${pokemon.baseExperience}</span>
             </li>
             <li class="info-row info-row-wide">
                 <span class="label">Abilities</span>
